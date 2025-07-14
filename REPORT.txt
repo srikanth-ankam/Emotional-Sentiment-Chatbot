@@ -1,0 +1,95 @@
+📑 AI/ML 
+
+📌 Project Title:
+  Emotional Sentiment Analysis and Adaptive Response System  
+
+---
+
+🧠 Objective
+
+The goal of this project is to develop a prototype chatbot that can:
+1. Identify the   emotional state   (joy, sadness, anxiety, stress, etc.) of a user from conversational input.
+2. Generate   empathetic responses   that are context-aware and culturally sensitive.
+
+This tool has potential applications in digital mental health support, virtual assistants, and personalized conversational AI systems.
+
+---
+
+📂 Dataset
+
+  File Used  : `extended.csv`
+
+- Consists of ~50 manually labeled conversation lines.
+- Each line is tagged with one of the following emotional states:
+  - `joy`, `sadness`, `stress`, `anxiety`
+- Preprocessing Steps:
+  - Removed noise and punctuation
+  - Standardized case
+  - Cleaned mislabels and inconsistent categories
+
+---
+
+🔧 Technical Stack
+
+-   Language     : Python  
+-   Frontend/UI  : Streamlit  
+-   ML Library   : HuggingFace Transformers  
+-   Model Used   :`nateraw/bert-base-uncased-emotion` (pre-trained)
+
+---
+
+🛠️ Implementation Details
+
+    Modules
+
+| File                     | Description                                       |
+|--------------------------|---------------------------------------------------|
+| `app.py`                 | Main Streamlit chatbot UI                         |
+| `response_logic.py`      | Handles emotion classification + response mapping |
+| `evaluate_chatbot.py`    | Evaluates model performance with test data        |
+| `extended.csv`            | Cleaned dataset used for evaluation               |
+
+Chatbot Flow
+
+1. User types a message.
+2. Model predicts the emotion using a pre-trained classifier.
+3. Based on emotion, chatbot generates a context-sensitive reply.
+
+---
+
+🧩 Challenges Faced
+
+- ❌ Accuracy Limitations:  
+  With a small dataset and no fine-tuning, the model achieved only   77.15% accuracy  .
+  
+- ❌ Cultural Sensitivity:  
+  The model is trained on global (non-Indian) datasets. Some responses were not relevant in Indian social context.
+
+- ❌ Model Compatibility Issues:  
+  Faced issues with Keras 3 incompatibility in Transformers. Solved by switching model or using PyTorch backend.
+
+---
+
+📊 Evaluation Results
+
+Using `evaluate_chatbot.py` with `test_cases.json`:
+
+- Overall Accuracy: `77.15%`
+- Correct Predictions: 7 out of 10
+- Observations: Model often confused between `anxiety` and `stress`. Clear separation was hard without fine-tuning...
+
+---
+
+🌱 Future Improvements
+
+- 🧠 Context Awareness:  
+  Integrate previous conversation history for better emotional context.
+
+- 🌍 Cultural Adaptation:  
+  Include Hinglish, Telugu-English, or regional sentiment expressions.
+
+- 🔤 Multilingual Support:  
+  Extend to support local languages and dialects using Indic NLP libraries.
+
+---
+
