@@ -2,7 +2,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 import torch
 
 # Load local fine-tuned model and tokenizer
-model_path = "./fine_tuned_model"
+model_path = "./fine_tune_emotion_model"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
