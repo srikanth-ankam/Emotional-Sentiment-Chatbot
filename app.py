@@ -4,15 +4,18 @@ import os
 import time # For simulation of loading time if needed, or for general time.sleep()
 
 # --- CRITICAL: Ensure your 'response_logic.py' is accessible ---
-# This line adds the parent directory of the current script to Python's search path.
-# Adjust this path based on your actual file structure.
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+# If 'response_logic.py' is in the same directory as 'app.py',
+# no modification to sys.path is typically needed.
+# If it were in a sibling directory (e.g., 'src/response_logic.py' and 'app.py' in root),
+# you might need something like:
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
+# But for a flat structure, the direct import is sufficient.
 
 try:
     from response_logic import get_emotion, get_response
 except ImportError:
     st.error("Error: Could not import 'get_emotion' or 'get_response' from 'response_logic.py'.")
-    st.error("Please ensure 'response_logic.py' is in the correct location and contains these functions.")
+    st.error("Please ensure 'response_logic.py' is in the same directory as 'app.py' and contains these functions.")
     st.stop() # Stop the app if crucial functions aren't found
 
 
@@ -209,7 +212,7 @@ col1, col2, col3 = st.columns([1, 1, 3]) # Adjust column ratios if needed
 with col1:
     send_button = st.button("Send Message ✨")
 with col2:
-    st.button("New Chat 🔄", on_click=start_new_chat)
+    st.button("New Chat �", on_click=start_new_chat)
 
 
 # --- Send Button Action ---
