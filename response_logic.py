@@ -1,10 +1,14 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import torch
+from transformers import DistilBertForSequenceClassification
+
 
 # Load fine-tuned model and tokenizer
 model_path = "./fine_tuned_model"  # Ensure this is correct path inside your repo
 tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
+model = DistilBertForSequenceClassification.from_pretrained(model_path)
+
+
 
 # Use GPU if available, else CPU
 classifier = pipeline(
