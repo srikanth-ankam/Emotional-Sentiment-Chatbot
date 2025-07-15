@@ -1,13 +1,19 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import torch
+import os
 
-# Load local fine-tuned model and tokenizer
-# CORRECTED: model_path should point to the 'fine_tuned_model' directory
+# Path to the locally saved fine-tuned model
 model_path = "./fine_tuned_model"
+
+# Check if the model directory exists
+if not os.path.exists(model_path):
+    raise FileNotFoundError(f"Model path '{model_path}' not found. Please ensure the model is saved in this directory.")
+
+# Load tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# Create a sentiment analysis pipeline using the fine-tuned model
+# Create a text classification pipeline
 classifier = pipeline(
     "text-classification",
     model=model,
@@ -15,24 +21,20 @@ classifier = pipeline(
     return_all_scores=True
 )
 
-# Emotion label mapping
-# This id2label is loaded directly from the model's configuration
+# Emotion label mapping from model config
 id2label = model.config.id2label
 
 # Get the predicted emotion
 def get_emotion(text):
-    # Ensure text is not empty before classifying
     if not text or not text.strip():
-        return "neutral" # Or handle as an error/default
+        return "neutral"  # Default if input is empty
 
     scores = classifier(text)[0]
-    # Find the label with the highest score
     top = max(scores, key=lambda x: x["score"])
     return top["label"]
 
-# Generate empathetic responses
+# Generate responses based on emotion
 def get_response(emotion):
-    # Ensure the emotion is converted to lowercase for consistent lookup
     emotion_lower = emotion.lower()
     responses = {
         "joy": "That's wonderful to hear! 😊 Stay positive!",
@@ -44,9 +46,5 @@ def get_response(emotion):
         "neutral": "Thanks for sharing. I’m here if you want to talk more.",
         "anxiety": "It’s okay to feel anxious. Try to take it one step at a time.",
         "stress": "That sounds stressful. Don’t forget to take care of yourself.",
-        # Add more specific responses if your model predicts other emotions
-        # For example, if your model can predict 'disgust', 'shame', 'guilt', etc.
     }
-    # Use .get() with a default message if the emotion is not found in the dictionary
     return responses.get(emotion_lower, "I'm here to listen. Tell me more about how you're feeling.")
-
