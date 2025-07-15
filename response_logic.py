@@ -4,7 +4,7 @@ from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassifica
 import os
 
 # Point to your fine-tuned model folder
-model_path = "./model_output"
+model_path = "./fine_tuned_model"
 
 if not os.path.isdir(model_path):
     raise FileNotFoundError(f"Model folder not found at: {model_path}")
