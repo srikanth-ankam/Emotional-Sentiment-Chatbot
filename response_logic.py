@@ -3,16 +3,16 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import os
 
-# Correct folder path
+# Point to your fine-tuned model folder
 model_path = "./model_output"
 
 if not os.path.isdir(model_path):
-    raise FileNotFoundError(f"'{model_path}' not found — check the model folder.")
+    raise FileNotFoundError(f"Model folder not found at: {model_path}")
 
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# Create classifier
+# Create a classification pipeline
 classifier = pipeline("text-classification", model=model, tokenizer=tokenizer, return_all_scores=True)
 
 def get_emotion(text):
