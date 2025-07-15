@@ -1,27 +1,32 @@
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
-import torch  # ✅ REQUIRED for device check
+import torch
 
-# Load local fine-tuned model and tokenizer
+# Load fine-tuned model and tokenizer
 model_path = "./fine_tuned_model"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# Create a sentiment analysis pipeline using the fine-tuned model
 classifier = pipeline(
     "text-classification",
     model=model,
     tokenizer=tokenizer,
-    device=0 if torch.cuda.is_available() else -1  # ✅ Fixes NameError
+    device=0 if torch.cuda.is_available() else -1
 )
 
-# Get predicted emotion
 def get_emotion(text):
     if not text or not text.strip():
         return "neutral", 1.0
-    output = classifier(text)[0]
-    return output["label"], float(output["score"])
 
-# Generate empathetic response
+    raw_scores = classifier(text, return_all_scores=True)[0]
+
+    # Fix: convert GPU tensors to CPU float
+    for entry in raw_scores:
+        if isinstance(entry["score"], torch.Tensor):
+            entry["score"] = entry["score"].cpu().item()
+
+    top = max(raw_scores, key=lambda x: x["score"])
+    return top["label"], float(top["score"])
+
 def get_response(emotion):
     emotion = emotion.lower()
     responses = {
