@@ -70,6 +70,15 @@ Chatbot Flow
 
 ---
 
+
+💡 Deployment
+
+✅ The Streamlit web application for the Emotional Sentiment Chatbot is deployed at:
+https://emotional-sentiment-chatbot.streamlit.app
+This interface allows real-time emotion detection and adaptive response generation.
+
+
+---
 📊 Evaluation Results
 
 Using `evaluate_chatbot.py` with `test_cases.json`:
