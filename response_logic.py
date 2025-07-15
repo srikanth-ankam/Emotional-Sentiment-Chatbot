@@ -1,41 +1,28 @@
+# response_logic.py
+
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
-import torch
 import os
 
-# Path to the locally saved fine-tuned model
-model_path = "./fine_tuned_model"
+# Correct folder path
+model_path = "./model_output"
 
-# Check if the model directory exists
-if not os.path.exists(model_path):
-    raise FileNotFoundError(f"Model path '{model_path}' not found. Please ensure the model is saved in this directory.")
+if not os.path.isdir(model_path):
+    raise FileNotFoundError(f"'{model_path}' not found — check the model folder.")
 
-# Load tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# Create a text classification pipeline
-classifier = pipeline(
-    "text-classification",
-    model=model,
-    tokenizer=tokenizer,
-    return_all_scores=True
-)
+# Create classifier
+classifier = pipeline("text-classification", model=model, tokenizer=tokenizer, return_all_scores=True)
 
-# Emotion label mapping from model config
-id2label = model.config.id2label
-
-# Get the predicted emotion
 def get_emotion(text):
     if not text or not text.strip():
-        return "neutral"  # Default if input is empty
-
+        return "neutral", 0.0
     scores = classifier(text)[0]
     top = max(scores, key=lambda x: x["score"])
-    return top["label"]
+    return top["label"], top["score"]
 
-# Generate responses based on emotion
 def get_response(emotion):
-    emotion_lower = emotion.lower()
     responses = {
         "joy": "That's wonderful to hear! 😊 Stay positive!",
         "sadness": "I'm sorry you're feeling this way. You're not alone. 💙",
@@ -47,4 +34,4 @@ def get_response(emotion):
         "anxiety": "It’s okay to feel anxious. Try to take it one step at a time.",
         "stress": "That sounds stressful. Don’t forget to take care of yourself.",
     }
-    return responses.get(emotion_lower, "I'm here to listen. Tell me more about how you're feeling.")
+    return responses.get(emotion.lower(), "I'm here to listen. Tell me more.")
