@@ -17,8 +17,10 @@ classifier = pipeline("text-classification", model=model, tokenizer=tokenizer, r
 
 def get_emotion(text):
     if not text or not text.strip():
-        return "neutral", 0.0
-    scores = classifier(text)[0]
+        return "neutral", 1.0
+
+    raw_scores = classifier(text, return_all_scores=True)[0]
+    scores = [{**s, "score": float(s["score"])} for s in raw_scores]
     top = max(scores, key=lambda x: x["score"])
     return top["label"], top["score"]
 
