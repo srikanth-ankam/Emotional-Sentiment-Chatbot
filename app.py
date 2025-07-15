@@ -231,7 +231,8 @@ if send_button:
         with st.spinner("🧠 Analyzing your emotions..."):
             try:
                 # Get emotion and response
-                emotion = get_emotion(user_input)
+                # Get emotion and response
+                emotion, confidence = get_emotion(user_input)
                 bot_response = get_response(emotion)
 
                 # Set flag indicating model has loaded at least once
