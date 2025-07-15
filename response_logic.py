@@ -13,7 +13,13 @@ tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
 # Create a classification pipeline
-classifier = pipeline("text-classification", model=model, tokenizer=tokenizer, return_all_scores=True)
+classifier = pipeline(
+    "text-classification",
+    model=model,
+    tokenizer=tokenizer,
+    device=0 if torch.cuda.is_available() else -1
+)
+
 
 def get_emotion(text):
     if not text or not text.strip():
