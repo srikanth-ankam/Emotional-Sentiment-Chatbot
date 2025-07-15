@@ -19,11 +19,6 @@ def get_emotion(text):
 
     raw_scores = classifier(text, return_all_scores=True)[0]
 
-    # Fix: convert GPU tensors to CPU float
-    for entry in raw_scores:
-        if isinstance(entry["score"], torch.Tensor):
-            entry["score"] = entry["score"].cpu().item()
-
     top = max(raw_scores, key=lambda x: x["score"])
     return top["label"], float(top["score"])
 
