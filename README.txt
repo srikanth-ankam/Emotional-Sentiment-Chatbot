@@ -9,6 +9,11 @@ This project is a prototype chatbot that identifies the emotional state of a use
 - Objective: Build a chatbot that performs **emotional sentiment analysis** and **generates supportive, culturally relevant responses**.
 - Use Case: Can be applied in mental health support, wellness chatbots, and emotionally intelligent interfaces.
 
+
+🚀 Live Streamlit Demo (Emotion-Aware Chatbot): 
+https://emotional-sentiment-chatbot.streamlit.app
+
+
 📂 Folder Structure
 
 emotion-chatbot/
@@ -59,10 +64,10 @@ Insights: Model struggles with nuanced or culturally specific expressions. Accur
 💬 Sample Emotions & Responses
 
 Emotion	             Example User Input	                                                    Chatbot Response
-joy	             "I just got a job!"	                         "That's wonderful! Congratulations on your success!"
-sadness	             "I feel empty lately."	                         "I'm here for you. It's okay to feel low sometimes."
-stress	             "Everything's piling up at work."	                 "That sounds overwhelming. Try to take small breaks when you can."
-anxiety	             "I'm so nervous about my exams."	                 "You're not alone in this. Just do your best, one step at a time."
+joy	                 "I just got a job!"	                                "That's wonderful! Congratulations on your success!"
+sadness	             "I feel empty lately."	                              "I'm here for you. It's okay to feel low sometimes."
+stress	             "Everything's piling up at work."	                  "That sounds overwhelming. Try to take small breaks when you can."
+anxiety	             "I'm so nervous about my exams."	                    "You're not alone in this. Just do your best, one step at a time."
 
 
 
